@@ -15,17 +15,18 @@ jobs:
           - SaxenaAnushka102/mcp-toolbox-sdk-js
     steps:
       - name: Trigger SDK Update Workflow
+        env:
+          # Use an environment variable to pass the token securely
+          GH_PAT: ${{ secrets.SDK_WORKFLOW_DISPATCH }}
         run: |
           # The version is available from the release event payload.
           VERSION="${{ github.event.release.tag_name }}"
-          # Use the correct secret name to access the PAT
-          TOKEN="${{ secrets.SDK_WORKFLOW_DISPATCH }}"
 
           # Use curl to send a repository_dispatch event to the target repository
           curl -L \
             -X POST \
             -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $TOKEN" \
+            -H "Authorization: Bearer $GH_PAT" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/repos/${{ matrix.repository }}/dispatches \
             -d "{\"event_type\":\"genai-toolbox-update\", \"client_payload\":{\"new_version\":\"$VERSION\"}}"
