@@ -1,29 +1,31 @@
 name: Trigger SDK Update
 
 on:
- release:
-   types: [published]
+  release:
+    types: [published]
 
 jobs:
- trigger:
-   runs-on: ubuntu-latest
-   strategy:
-     matrix:
-       repository:
-         - SaxenaAnushka102/mcp-toolbox-sdk-python
-         - SaxenaAnushka102/mcp-toolbox-sdk-go
-         - SaxenaAnushka102/mcp-toolbox-sdk-js
-   steps:
-     - name: Trigger SDK Update Workflow
-       run: |
-         # The version is available from the release event payload.
-         VERSION="${{ github.event.release.tag_name }}"
+  trigger:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repository:
+          - SaxenaAnushka102/mcp-toolbox-sdk-python
+          - SaxenaAnushka102/mcp-toolbox-sdk-go
+          - SaxenaAnushka102/mcp-toolbox-sdk-js
+    steps:
+      - name: Trigger SDK Update Workflow
+        run: |
+          # The version is available from the release event payload.
+          VERSION="${{ github.event.release.tag_name }}"
+          # Use the correct secret name to access the PAT
+          TOKEN="${{ secrets.SDK_WORKFLOW_DISPATCH }}"
 
-         # Use curl to send a repository_dispatch event to the target repository
-         curl -L \
-           -X POST \
-           -H "Accept: application/vnd.github+json" \
-           -H "Authorization: Bearer ${{ secrets.SDK_WORKFLOW_DISPATCH }}" \
-           -H "X-GitHub-Api-Version: 2022-11-28" \
-           https://api.github.com/repos/${{ matrix.repository }}/dispatches \
-           -d "{\"event_type\":\"genai-toolbox-update\", \"client_payload\":{\"new_version\":\"$VERSION\"}}"
+          # Use curl to send a repository_dispatch event to the target repository
+          curl -L \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/${{ matrix.repository }}/dispatches \
+            -d "{\"event_type\":\"genai-toolbox-update\", \"client_payload\":{\"new_version\":\"$VERSION\"}}"
