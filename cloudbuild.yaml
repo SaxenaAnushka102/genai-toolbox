@@ -23,5 +23,5 @@ steps:
         gcloud builds triggers run js-sdk-update --project=${_PROJECT_ID} --substitutions=_TOOLBOX_VERSION="$CLEAN_VERSION"
 
 substitutions:
-  _PROJECT_ID: 'your-gcp-project-id'
+  _PROJECT_ID: 'anushkasaxenaa-playground'
   _TAG_NAME: 'v0.12.0'
