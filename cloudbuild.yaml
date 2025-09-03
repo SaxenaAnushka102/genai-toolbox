@@ -1,0 +1,27 @@
+steps:
+  - id: 'Get PAT from Secret Manager'
+    name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        PAT=$(gcloud secrets versions access latest --secret=github-pat --project=${_PROJECT_ID})
+        echo "PAT=$PAT" >> /workspace/env_vars.txt
+        
+  - id: 'Trigger SDK Builds'
+    name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        source /workspace/env_vars.txt
+        CLEAN_VERSION=$(echo "${_TAG_NAME}" | sed 's/^v//')
+        
+        # Trigger builds for each client SDK repo using the new version
+        gcloud builds triggers run python-sdk-update --project=${_PROJECT_ID} --substitutions=_TOOLBOX_VERSION="$CLEAN_VERSION"
+        gcloud builds triggers run go-sdk-update --project=${_PROJECT_ID} --substitutions=_TOOLBOX_VERSION="$CLEAN_VERSION"
+        gcloud builds triggers run js-sdk-update --project=${_PROJECT_ID} --substitutions=_TOOLBOX_VERSION="$CLEAN_VERSION"
+
+substitutions:
+  _PROJECT_ID: 'your-gcp-project-id'
+  _TAG_NAME: 'v0.12.0'
