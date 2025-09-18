@@ -13,6 +13,8 @@ from llama_index.llms.google_genai import GoogleGenAI
 
 from toolbox_llamaindex import ToolboxClient
 
+project = os.environ.get("GCP_PROJECT") or "project-id"
+
 prompt = """
   You're a helpful hotel assistant. You handle hotel searching, booking and
   cancellations. When the user searches for a hotel, mention it's name, id,
@@ -30,11 +32,11 @@ queries = [
     "My check in dates would be from April 10, 2024 to April 19, 2024.",
 ]
 
-async def run_application():
+async def main():
     # TODO(developer): replace this with another model if needed
     llm = GoogleGenAI(
         model="gemini-2.0-flash-001",
-        vertexai_config={"project": "project-id", "location": "us-central1"},
+        vertexai_config={"project": project, "location": "us-central1"},
     )
     # llm = GoogleGenAI(
     #     api_key=os.getenv("GOOGLE_API_KEY"),
@@ -60,4 +62,4 @@ async def run_application():
             print(f"---- {query} ----")
             print(str(response))
 
-asyncio.run(run_application())
+asyncio.run(main())

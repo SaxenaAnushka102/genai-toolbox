@@ -31,6 +31,7 @@ import (
 	"github.com/googleapis/genai-toolbox/internal/testutils"
 	"github.com/googleapis/genai-toolbox/internal/tools"
 	clickhouseexecutesql "github.com/googleapis/genai-toolbox/internal/tools/clickhouse/clickhouseexecutesql"
+	clickhouselistdatabases "github.com/googleapis/genai-toolbox/internal/tools/clickhouse/clickhouselistdatabases"
 	clickhousesql "github.com/googleapis/genai-toolbox/internal/tools/clickhouse/clickhousesql"
 	"github.com/googleapis/genai-toolbox/tests"
 	"go.opentelemetry.io/otel/trace/noop"
@@ -147,12 +148,14 @@ func TestClickHouse(t *testing.T) {
 		t.Fatalf("toolbox didn't start successfully: %s", err)
 	}
 
-	tests.RunToolGetTest(t)
+	// Get configs for tests
+	select1Want, mcpSelect1Want, mcpMyFailToolWant, createTableStatement, nilIdWant := getClickHouseWants()
 
-	select1Want, mcpSelect1Want, failInvocationWant, createTableStatement, nilIdWant := getClickHouseWants()
+	// Run tests
+	tests.RunToolGetTest(t)
 	tests.RunToolInvokeTest(t, select1Want, tests.WithMyToolById4Want(nilIdWant))
 	tests.RunExecuteSqlToolInvokeTest(t, createTableStatement, select1Want)
-	tests.RunMCPToolCallMethod(t, failInvocationWant, mcpSelect1Want)
+	tests.RunMCPToolCallMethod(t, mcpMyFailToolWant, mcpSelect1Want)
 	tests.RunToolInvokeWithTemplateParameters(t, tableNameTemplateParam)
 }
 
@@ -339,10 +342,10 @@ func TestClickHouseBasicConnection(t *testing.T) {
 func getClickHouseWants() (string, string, string, string, string) {
 	select1Want := "[{\"1\":1}]"
 	mcpSelect1Want := `{"jsonrpc":"2.0","id":"invoke my-auth-required-tool","result":{"content":[{"type":"text","text":"{\"1\":1}"}]}}`
-	failInvocationWant := `{"jsonrpc":"2.0","id":"invoke-fail-tool","result":{"content":[{"type":"text","text":"unable to execute query: clickhouse [execute]:: 400 code: Code: 62. DB::Exception: Syntax error: failed at position 1 (SELEC): SELEC 1;. Expected one of: Query, Query with output, EXPLAIN, EXPLAIN, SELECT query, possibly with UNION, list of union elements, SELECT query, subquery, possibly with UNION, SELECT subquery, SELECT query, WITH, FROM, SELECT, SHOW CREATE QUOTA query, SHOW CREATE, SHOW [FULL] [TEMPORARY] TABLES|DATABASES|CLUSTERS|CLUSTER|MERGES 'name' [[NOT] [I]LIKE 'str'] [LIMIT expr], SHOW, SHOW COLUMNS query, SHOW ENGINES query, SHOW ENGINES, SHOW FUNCTIONS query, SHOW FUNCTIONS, SHOW INDEXES query, SHOW SETTING query, SHOW SETTING, EXISTS or SHOW CREATE query, EXISTS, DESCRIBE FILESYSTEM CACHE query, DESCRIBE, DESC, DESCRIBE query, SHOW PROCESSLIST query, SHOW PROCESSLIST, CREATE TABLE or ATTACH TABLE query, CREATE, ATTACH, REPLACE, CREATE DATABASE query, CREATE VIEW query, CREATE DICTIONARY, CREATE LIVE VIEW query, CREATE WINDOW VIEW query, ALTER query, ALTER TABLE, ALTER TEMPORARY TABLE, ALTER DATABASE, RENAME query, RENAME DATABASE, RENAME TABLE, EXCHANGE TABLES, RENAME DICTIONARY, EXCHANGE DICTIONARIES, RENAME, DROP query, DROP, DETACH, TRUNCATE, UNDROP query, UNDROP, CHECK ALL TABLES, CHECK TABLE, KILL QUERY query, KILL, OPTIMIZE query, OPTIMIZE TABLE, WATCH query, WATCH, SHOW ACCESS query, SHOW ACCESS, ShowAccessEntitiesQuery, SHOW GRANTS query, SHOW GRANTS, SHOW PRIVILEGES query, SHOW PRIVILEGES, BACKUP or RESTORE query, BACKUP, RESTORE, INSERT query, INSERT INTO, USE query, USE, SET ROLE or SET DEFAULT ROLE query, SET ROLE DEFAULT, SET ROLE, SET DEFAULT ROLE, SET query, SET, SYSTEM query, SYSTEM, CREATE USER or ALTER USER query, ALTER USER, CREATE USER, CREATE ROLE or ALTER ROLE query, ALTER ROLE, CREATE ROLE, CREATE QUOTA or ALTER QUOTA query, ALTER QUOTA, CREATE QUOTA, CREATE ROW POLICY or ALTER ROW POLICY query, ALTER POLICY, ALTER ROW POLICY, CREATE POLICY, CREATE ROW POLICY, CREATE SETTINGS PROFILE or ALTER SETTINGS PROFILE query, ALTER SETTINGS PROFILE, ALTER PROFILE, CREATE SETTINGS PROFILE, CREATE PROFILE, CREATE FUNCTION query, DROP FUNCTION query, CREATE WORKLOAD query, DROP WORKLOAD query, CREATE RESOURCE query, DROP RESOURCE query, CREATE NAMED COLLECTION, DROP NAMED COLLECTION query, Alter NAMED COLLECTION query, ALTER, CREATE INDEX query, DROP INDEX query, DROP access entity query, MOVE access entity query, MOVE, GRANT or REVOKE query, REVOKE, GRANT, CHECK GRANT, CHECK GRANT, EXTERNAL DDL query, EXTERNAL DDL FROM, TCL query, BEGIN TRANSACTION, START TRANSACTION, COMMIT, ROLLBACK, SET TRANSACTION SNAPSHOT, Delete query, DELETE, Update query, UPDATE. (SYNTAX_ERROR) (version 25.7.5.34 (official build))\n"}],"isError":true}}`
+	mcpMyFailToolWant := `{"jsonrpc":"2.0","id":"invoke-fail-tool","result":{"content":[{"type":"text","text":"unable to execute query: sendQuery: [HTTP 400] response body: \"Code: 62. DB::Exception: Syntax error: failed at position 1 (SELEC): SELEC 1;. Expected one of: Query, Query with output, EXPLAIN, EXPLAIN, SELECT query, possibly with UNION, list of union elements, SELECT query, subquery, possibly with UNION, SELECT subquery, SELECT query, WITH, FROM, SELECT, SHOW CREATE QUOTA query, SHOW CREATE, SHOW [FULL] [TEMPORARY] TABLES|DATABASES|CLUSTERS|CLUSTER|MERGES 'name' [[NOT] [I]LIKE 'str'] [LIMIT expr], SHOW, SHOW COLUMNS query, SHOW ENGINES query, SHOW ENGINES, SHOW FUNCTIONS query, SHOW FUNCTIONS, SHOW INDEXES query, SHOW SETTING query, SHOW SETTING, EXISTS or SHOW CREATE query, EXISTS, DESCRIBE FILESYSTEM CACHE query, DESCRIBE, DESC, DESCRIBE query, SHOW PROCESSLIST query, SHOW PROCESSLIST, CREATE TABLE or ATTACH TABLE query, CREATE, ATTACH, REPLACE, CREATE DATABASE query, CREATE VIEW query, CREATE DICTIONARY, CREATE LIVE VIEW query, CREATE WINDOW VIEW query, ALTER query, ALTER TABLE, ALTER TEMPORARY TABLE, ALTER DATABASE, RENAME query, RENAME DATABASE, RENAME TABLE, EXCHANGE TABLES, RENAME DICTIONARY, EXCHANGE DICTIONARIES, RENAME, DROP query, DROP, DETACH, TRUNCATE, UNDROP query, UNDROP, CHECK ALL TABLES, CHECK TABLE, KILL QUERY query, KILL, OPTIMIZE query, OPTIMIZE TABLE, WATCH query, WATCH, SHOW ACCESS query, SHOW ACCESS, ShowAccessEntitiesQuery, SHOW GRANTS query, SHOW GRANTS, SHOW PRIVILEGES query, SHOW PRIVILEGES, BACKUP or RESTORE query, BACKUP, RESTORE, INSERT query, INSERT INTO, USE query, USE, SET ROLE or SET DEFAULT ROLE query, SET ROLE DEFAULT, SET ROLE, SET DEFAULT ROLE, SET query, SET, SYSTEM query, SYSTEM, CREATE USER or ALTER USER query, ALTER USER, CREATE USER, CREATE ROLE or ALTER ROLE query, ALTER ROLE, CREATE ROLE, CREATE QUOTA or ALTER QUOTA query, ALTER QUOTA, CREATE QUOTA, CREATE ROW POLICY or ALTER ROW POLICY query, ALTER POLICY, ALTER ROW POLICY, CREATE POLICY, CREATE ROW POLICY, CREATE SETTINGS PROFILE or ALTER SETTINGS PROFILE query, ALTER SETTINGS PROFILE, ALTER PROFILE, CREATE SETTINGS PROFILE, CREATE PROFILE, CREATE FUNCTION query, DROP FUNCTION query, CREATE WORKLOAD query, DROP WORKLOAD query, CREATE RESOURCE query, DROP RESOURCE query, CREATE NAMED COLLECTION, DROP NAMED COLLECTION query, Alter NAMED COLLECTION query, ALTER, CREATE INDEX query, DROP INDEX query, DROP access entity query, MOVE access entity query, MOVE, GRANT or REVOKE query, REVOKE, GRANT, CHECK GRANT, CHECK GRANT, EXTERNAL DDL query, EXTERNAL DDL FROM, TCL query, BEGIN TRANSACTION, START TRANSACTION, COMMIT, ROLLBACK, SET TRANSACTION SNAPSHOT, Delete query, DELETE, Update query, UPDATE. (SYNTAX_ERROR) (version 25.7.5.34 (official build))\n\""}],"isError":true}}`
 	createTableStatement := `"CREATE TABLE t (id UInt32, name String) ENGINE = Memory"`
 	nullWant := `[{"id":4,"name":""}]`
-	return select1Want, mcpSelect1Want, failInvocationWant, createTableStatement, nullWant
+	return select1Want, mcpSelect1Want, mcpMyFailToolWant, createTableStatement, nullWant
 }
 
 func TestClickHouseSQLTool(t *testing.T) {
@@ -1009,4 +1012,104 @@ func setupClickHouseSQLTable(t *testing.T, ctx context.Context, pool *sql.DB, cr
 			t.Errorf("Teardown failed: %s", err)
 		}
 	}
+}
+
+func TestClickHouseListDatabasesTool(t *testing.T) {
+	_ = getClickHouseVars(t)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
+	defer cancel()
+
+	pool, err := initClickHouseConnectionPool(ClickHouseHost, ClickHousePort, ClickHouseUser, ClickHousePass, ClickHouseDatabase, ClickHouseProtocol)
+	if err != nil {
+		t.Fatalf("unable to create ClickHouse connection pool: %s", err)
+	}
+	defer pool.Close()
+
+	// Create a test database
+	testDBName := "test_list_db_" + strings.ReplaceAll(uuid.New().String(), "-", "")[:8]
+	_, err = pool.ExecContext(ctx, fmt.Sprintf("CREATE DATABASE IF NOT EXISTS %s", testDBName))
+	if err != nil {
+		t.Fatalf("Failed to create test database: %v", err)
+	}
+	defer func() {
+		_, _ = pool.ExecContext(ctx, fmt.Sprintf("DROP DATABASE IF EXISTS %s", testDBName))
+	}()
+
+	t.Run("ListDatabases", func(t *testing.T) {
+		toolConfig := clickhouselistdatabases.Config{
+			Name:        "test-list-databases",
+			Kind:        "clickhouse-list-databases",
+			Source:      "test-clickhouse",
+			Description: "Test listing databases",
+		}
+
+		source := createMockSource(t, pool)
+		sourcesMap := map[string]sources.Source{
+			"test-clickhouse": source,
+		}
+
+		tool, err := toolConfig.Initialize(sourcesMap)
+		if err != nil {
+			t.Fatalf("Failed to initialize tool: %v", err)
+		}
+
+		params := tools.ParamValues{}
+
+		result, err := tool.Invoke(ctx, params, "")
+		if err != nil {
+			t.Fatalf("Failed to list databases: %v", err)
+		}
+
+		databases, ok := result.([]map[string]any)
+		if !ok {
+			t.Fatalf("Expected result to be []map[string]any, got %T", result)
+		}
+
+		// Should contain at least the default database and our test database - system and default
+		if len(databases) < 2 {
+			t.Errorf("Expected at least 2 databases, got %d", len(databases))
+		}
+
+		found := false
+		foundDefault := false
+		for _, db := range databases {
+			if name, ok := db["name"].(string); ok {
+				if name == testDBName {
+					found = true
+				}
+				if name == "default" || name == "system" {
+					foundDefault = true
+				}
+			}
+		}
+
+		if !found {
+			t.Errorf("Test database %s not found in list", testDBName)
+		}
+		if !foundDefault {
+			t.Errorf("Default/system database not found in list")
+		}
+
+		t.Logf("Successfully listed %d databases", len(databases))
+	})
+
+	t.Run("ListDatabasesWithInvalidSource", func(t *testing.T) {
+		toolConfig := clickhouselistdatabases.Config{
+			Name:        "test-invalid-source",
+			Kind:        "clickhouse-list-databases",
+			Source:      "non-existent-source",
+			Description: "Test with invalid source",
+		}
+
+		sourcesMap := map[string]sources.Source{}
+
+		_, err := toolConfig.Initialize(sourcesMap)
+		if err == nil {
+			t.Error("Expected error for non-existent source, got nil")
+		} else {
+			t.Logf("Got expected error for invalid source: %v", err)
+		}
+	})
+
+	t.Logf("✅ clickhouse-list-databases tool tests completed successfully")
 }
