@@ -64,8 +64,10 @@ import (
 	_ "github.com/googleapis/genai-toolbox/internal/tools/bigquery/bigquerysearchcatalog"
 	_ "github.com/googleapis/genai-toolbox/internal/tools/bigquery/bigquerysql"
 	_ "github.com/googleapis/genai-toolbox/internal/tools/bigtable"
+	_ "github.com/googleapis/genai-toolbox/internal/tools/cassandra/cassandracql"
 	_ "github.com/googleapis/genai-toolbox/internal/tools/clickhouse/clickhouseexecutesql"
 	_ "github.com/googleapis/genai-toolbox/internal/tools/clickhouse/clickhouselistdatabases"
+	_ "github.com/googleapis/genai-toolbox/internal/tools/clickhouse/clickhouselisttables"
 	_ "github.com/googleapis/genai-toolbox/internal/tools/clickhouse/clickhousesql"
 	_ "github.com/googleapis/genai-toolbox/internal/tools/cloudmonitoring"
 	_ "github.com/googleapis/genai-toolbox/internal/tools/cloudsql/cloudsqlcreatedatabase"
@@ -78,6 +80,7 @@ import (
 	_ "github.com/googleapis/genai-toolbox/internal/tools/cloudsqlmysql/cloudsqlmysqlcreateinstance"
 	_ "github.com/googleapis/genai-toolbox/internal/tools/cloudsqlpg/cloudsqlpgcreateinstances"
 	_ "github.com/googleapis/genai-toolbox/internal/tools/couchbase"
+	_ "github.com/googleapis/genai-toolbox/internal/tools/dataform/dataformcompilelocal"
 	_ "github.com/googleapis/genai-toolbox/internal/tools/dataplex/dataplexlookupentry"
 	_ "github.com/googleapis/genai-toolbox/internal/tools/dataplex/dataplexsearchaspecttypes"
 	_ "github.com/googleapis/genai-toolbox/internal/tools/dataplex/dataplexsearchentries"
@@ -95,6 +98,7 @@ import (
 	_ "github.com/googleapis/genai-toolbox/internal/tools/firestore/firestorevalidaterules"
 	_ "github.com/googleapis/genai-toolbox/internal/tools/http"
 	_ "github.com/googleapis/genai-toolbox/internal/tools/looker/lookeradddashboardelement"
+	_ "github.com/googleapis/genai-toolbox/internal/tools/looker/lookerconversationalanalytics"
 	_ "github.com/googleapis/genai-toolbox/internal/tools/looker/lookergetdashboards"
 	_ "github.com/googleapis/genai-toolbox/internal/tools/looker/lookergetdimensions"
 	_ "github.com/googleapis/genai-toolbox/internal/tools/looker/lookergetexplores"
@@ -103,6 +107,9 @@ import (
 	_ "github.com/googleapis/genai-toolbox/internal/tools/looker/lookergetmeasures"
 	_ "github.com/googleapis/genai-toolbox/internal/tools/looker/lookergetmodels"
 	_ "github.com/googleapis/genai-toolbox/internal/tools/looker/lookergetparameters"
+	_ "github.com/googleapis/genai-toolbox/internal/tools/looker/lookerhealthanalyze"
+	_ "github.com/googleapis/genai-toolbox/internal/tools/looker/lookerhealthpulse"
+	_ "github.com/googleapis/genai-toolbox/internal/tools/looker/lookerhealthvacuum"
 	_ "github.com/googleapis/genai-toolbox/internal/tools/looker/lookermakedashboard"
 	_ "github.com/googleapis/genai-toolbox/internal/tools/looker/lookermakelook"
 	_ "github.com/googleapis/genai-toolbox/internal/tools/looker/lookerquery"
@@ -158,6 +165,7 @@ import (
 	_ "github.com/googleapis/genai-toolbox/internal/sources/alloydbpg"
 	_ "github.com/googleapis/genai-toolbox/internal/sources/bigquery"
 	_ "github.com/googleapis/genai-toolbox/internal/sources/bigtable"
+	_ "github.com/googleapis/genai-toolbox/internal/sources/cassandra"
 	_ "github.com/googleapis/genai-toolbox/internal/sources/clickhouse"
 	_ "github.com/googleapis/genai-toolbox/internal/sources/cloudmonitoring"
 	_ "github.com/googleapis/genai-toolbox/internal/sources/cloudsqladmin"
@@ -652,20 +660,6 @@ func watchChanges(ctx context.Context, watchDirs map[string]bool, watchedFiles m
 	}
 }
 
-// updateLogLevel checks if Toolbox have to update the existing log level set by users.
-// stdio doesn't support "debug" and "info" logs.
-func updateLogLevel(stdio bool, logLevel string) bool {
-	if stdio {
-		switch strings.ToUpper(logLevel) {
-		case log.Debug, log.Info:
-			return true
-		default:
-			return false
-		}
-	}
-	return false
-}
-
 func resolveWatcherInputs(toolsFile string, toolsFiles []string, toolsFolder string) (map[string]bool, map[string]bool) {
 	var relevantFiles []string
 
@@ -694,10 +688,6 @@ func resolveWatcherInputs(toolsFile string, toolsFiles []string, toolsFolder str
 }
 
 func run(cmd *Command) error {
-	if updateLogLevel(cmd.cfg.Stdio, cmd.cfg.LogLevel.String()) {
-		cmd.cfg.LogLevel = server.StringLevel(log.Warn)
-	}
-
 	ctx, cancel := context.WithCancel(cmd.Context())
 	defer cancel()
 
@@ -721,16 +711,22 @@ func run(cmd *Command) error {
 		cancel()
 	}(ctx)
 
+	// If stdio, set logger's out stream (usually DEBUG and INFO logs) to errStream
+	loggerOut := cmd.outStream
+	if cmd.cfg.Stdio {
+		loggerOut = cmd.errStream
+	}
+
 	// Handle logger separately from config
 	switch strings.ToLower(cmd.cfg.LoggingFormat.String()) {
 	case "json":
-		logger, err := log.NewStructuredLogger(cmd.outStream, cmd.errStream, cmd.cfg.LogLevel.String())
+		logger, err := log.NewStructuredLogger(loggerOut, cmd.errStream, cmd.cfg.LogLevel.String())
 		if err != nil {
 			return fmt.Errorf("unable to initialize logger: %w", err)
 		}
 		cmd.logger = logger
 	case "standard":
-		logger, err := log.NewStdLogger(cmd.outStream, cmd.errStream, cmd.cfg.LogLevel.String())
+		logger, err := log.NewStdLogger(loggerOut, cmd.errStream, cmd.cfg.LogLevel.String())
 		if err != nil {
 			return fmt.Errorf("unable to initialize logger: %w", err)
 		}
