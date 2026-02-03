@@ -47,6 +47,7 @@ List of guides detailing how to do different things with Toolbox.
 - [Deploy to Kubernetes](https://SaxenaAnushka102.github.io/genai-toolbox/dev/how-to/deploy_gke/): How to set up and configure Toolbox to deploy on Kubernetes with Google Kubernetes Engine (GKE).
 - [Deploy using Docker Compose](https://SaxenaAnushka102.github.io/genai-toolbox/dev/how-to/deploy_docker/): How to deploy Toolbox using Docker Compose.
 - [Export Telemetry](https://SaxenaAnushka102.github.io/genai-toolbox/dev/how-to/export_telemetry/): How to set up and configure Toolbox to use the Otel Collector.
+- [Invoke Tools via CLI](https://SaxenaAnushka102.github.io/genai-toolbox/dev/how-to/invoke_tool/): Learn how to invoke your tools directly from the command line using the `invoke` command.
 
 ### Resources
 
@@ -61,6 +62,7 @@ List of reference documentation for resources in Toolbox.
   - [Cassandra](https://SaxenaAnushka102.github.io/genai-toolbox/dev/resources/sources/cassandra/): Apache Cassandra is a NoSQL distributed database known for its horizontal scalability, distributed architecture, and flexible schema definition.
   - [ClickHouse](https://SaxenaAnushka102.github.io/genai-toolbox/dev/resources/sources/clickhouse/): ClickHouse is an open-source, OLTP database.
   - [Cloud Healthcare API](https://SaxenaAnushka102.github.io/genai-toolbox/dev/resources/sources/cloud-healthcare/): The Cloud Healthcare API provides a managed solution for storing and accessing healthcare data in Google Cloud, providing a critical bridge  between existing care systems and applications hosted on Google Cloud.
+  - [Cloud Logging Admin](https://SaxenaAnushka102.github.io/genai-toolbox/dev/resources/sources/cloud-logging-admin/): The Cloud Logging Admin source enables tools to interact with the Cloud Logging API, allowing for the retrieval of log names, monitored resource types, and the querying of log data.
   - [Cloud Monitoring](https://SaxenaAnushka102.github.io/genai-toolbox/dev/resources/sources/cloud-monitoring/): A "cloud-monitoring" source provides a client for the Cloud Monitoring API.
   - [Cloud SQL for MySQL](https://SaxenaAnushka102.github.io/genai-toolbox/dev/resources/sources/cloud-sql-mysql/): Cloud SQL for MySQL is a fully-managed database service for MySQL.
   - [Cloud SQL for PostgreSQL](https://SaxenaAnushka102.github.io/genai-toolbox/dev/resources/sources/cloud-sql-pg/): Cloud SQL for PostgreSQL is a fully-managed database service for Postgres.
@@ -135,6 +137,9 @@ List of reference documentation for resources in Toolbox.
   - [Utility tools](https://SaxenaAnushka102.github.io/genai-toolbox/dev/resources/tools/utility/): Tools that provide utility.
   - [Valkey](https://SaxenaAnushka102.github.io/genai-toolbox/dev/resources/tools/valkey/): Tools that work with Valkey Sources.
   - [YugabyteDB](https://SaxenaAnushka102.github.io/genai-toolbox/dev/resources/tools/yuagbytedb/): Tools that work with Valkey Sources.
+  - [cloud-logging-admin-list-log-names](https://SaxenaAnushka102.github.io/genai-toolbox/dev/resources/tools/cloudloggingadmin/cloud-logging-admin-list-log-names/): A "cloud-logging-admin-list-log-names" tool lists the log names in the project.
+  - [cloud-logging-admin-list-resource-types](https://SaxenaAnushka102.github.io/genai-toolbox/dev/resources/tools/cloudloggingadmin/cloud-logging-admin-list-resource-types/): A "cloud-logging-admin-list-resource-types" tool lists the monitored resource types.
+  - [cloud-logging-admin-query-logs](https://SaxenaAnushka102.github.io/genai-toolbox/dev/resources/tools/cloudloggingadmin/cloud-logging-admin-query-logs/): A "cloud-logging-admin-query-logs" tool queries log entries.
 - [Prompts](https://SaxenaAnushka102.github.io/genai-toolbox/dev/resources/prompts/): Prompts allow servers to provide structured messages and instructions for interacting with language models.
   - [Custom](https://SaxenaAnushka102.github.io/genai-toolbox/dev/resources/prompts/custom/): Custom prompts defined by the user.
 
@@ -151,6 +156,8 @@ Samples and guides for using Toolbox.
   - [Gemini-CLI and OAuth](https://SaxenaAnushka102.github.io/genai-toolbox/dev/samples/looker/looker_gemini_oauth/): How to connect to Looker from Gemini-CLI with end-user credentials
   - [Quickstart (MCP with Looker and Gemini-CLI)](https://SaxenaAnushka102.github.io/genai-toolbox/dev/samples/looker/looker_gemini/): How to get started running Toolbox with Gemini-CLI and Looker as the source.
   - [Quickstart (MCP with Looker)](https://SaxenaAnushka102.github.io/genai-toolbox/dev/samples/looker/looker_mcp_inspector/): How to get started running Toolbox with MCP Inspector and Looker as the source.
+- [Neo4j](https://SaxenaAnushka102.github.io/genai-toolbox/dev/samples/neo4j/): How to get started with Toolbox using Neo4j.
+  - [Quickstart (MCP with Neo4j)](https://SaxenaAnushka102.github.io/genai-toolbox/dev/samples/neo4j/mcp_quickstart/): How to get started running Toolbox with MCP Inspector and Neo4j as the source.
 - [Snowflake](https://SaxenaAnushka102.github.io/genai-toolbox/dev/samples/snowflake/): How to get started running Toolbox with MCP Inspector and Snowflake as the source.
 
 ### About
