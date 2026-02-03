@@ -11,6 +11,7 @@ How to get started with Toolbox.
 - [Python Quickstart (Local)](https://SaxenaAnushka102.github.io/genai-toolbox/getting-started/local_quickstart/): How to get started running Toolbox locally with [Python](https://github.com/googleapis/mcp-toolbox-sdk-python), PostgreSQL, and  [Agent Development Kit](https://google.github.io/adk-docs/), [LangGraph](https://www.langchain.com/langgraph), [LlamaIndex](https://www.llamaindex.ai/) or [GoogleGenAI](https://pypi.org/project/google-genai/).
 - [JS Quickstart (Local)](https://SaxenaAnushka102.github.io/genai-toolbox/getting-started/local_quickstart_js/): How to get started running Toolbox locally with [JavaScript](https://github.com/googleapis/mcp-toolbox-sdk-js), PostgreSQL, and orchestration frameworks such as [LangChain](https://js.langchain.com/docs/introduction/), [GenkitJS](https://genkit.dev/docs/get-started/),  [LlamaIndex](https://ts.llamaindex.ai/) and [GoogleGenAI](https://github.com/googleapis/js-genai).
 - [Go Quickstart (Local)](https://SaxenaAnushka102.github.io/genai-toolbox/getting-started/local_quickstart_go/): How to get started running Toolbox locally with [Go](https://github.com/googleapis/mcp-toolbox-sdk-go), PostgreSQL, and orchestration frameworks such as [LangChain Go](https://tmc.github.io/langchaingo/docs/), [GenkitGo](https://genkit.dev/go/docs/get-started-go/), [Go GenAI](https://github.com/googleapis/go-genai) and [OpenAI Go](https://github.com/openai/openai-go).
+- [Prompts using Gemini CLI](https://SaxenaAnushka102.github.io/genai-toolbox/getting-started/prompts_quickstart_gemini_cli/): How to get started using Toolbox prompts locally with PostgreSQL and [Gemini CLI](https://pypi.org/project/gemini-cli/).
 - [Quickstart (MCP)](https://SaxenaAnushka102.github.io/genai-toolbox/getting-started/mcp_quickstart/): How to get started running Toolbox locally with MCP Inspector.
 - [Configuration](https://SaxenaAnushka102.github.io/genai-toolbox/getting-started/configure/): How to configure Toolbox's tools.yaml file.
 
@@ -19,6 +20,9 @@ How to get started with Toolbox.
 Some core concepts in Toolbox
 - [Telemetry](https://SaxenaAnushka102.github.io/genai-toolbox/concepts/telemetry/): An overview of telemetry and observability in Toolbox.
 
+### Featured Articles
+
+Toolbox Medium Blogs
 ### How-to
 
 List of guides detailing how to do different things with Toolbox. 
@@ -43,6 +47,7 @@ List of guides detailing how to do different things with Toolbox.
 - [Deploy to Kubernetes](https://SaxenaAnushka102.github.io/genai-toolbox/how-to/deploy_gke/): How to set up and configure Toolbox to deploy on Kubernetes with Google Kubernetes Engine (GKE).
 - [Deploy using Docker Compose](https://SaxenaAnushka102.github.io/genai-toolbox/how-to/deploy_docker/): How to deploy Toolbox using Docker Compose.
 - [Export Telemetry](https://SaxenaAnushka102.github.io/genai-toolbox/how-to/export_telemetry/): How to set up and configure Toolbox to use the Otel Collector.
+- [Invoke Tools via CLI](https://SaxenaAnushka102.github.io/genai-toolbox/how-to/invoke_tool/): Learn how to invoke your tools directly from the command line using the `invoke` command.
 
 ### Resources
 
@@ -57,6 +62,7 @@ List of reference documentation for resources in Toolbox.
   - [Cassandra](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/cassandra/): Apache Cassandra is a NoSQL distributed database known for its horizontal scalability, distributed architecture, and flexible schema definition.
   - [ClickHouse](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/clickhouse/): ClickHouse is an open-source, OLTP database.
   - [Cloud Healthcare API](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/cloud-healthcare/): The Cloud Healthcare API provides a managed solution for storing and accessing healthcare data in Google Cloud, providing a critical bridge  between existing care systems and applications hosted on Google Cloud.
+  - [Cloud Logging Admin](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/cloud-logging-admin/): The Cloud Logging Admin source enables tools to interact with the Cloud Logging API, allowing for the retrieval of log names, monitored resource types, and the querying of log data.
   - [Cloud Monitoring](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/cloud-monitoring/): A "cloud-monitoring" source provides a client for the Cloud Monitoring API.
   - [Cloud SQL for MySQL](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/cloud-sql-mysql/): Cloud SQL for MySQL is a fully-managed database service for MySQL.
   - [Cloud SQL for PostgreSQL](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/cloud-sql-pg/): Cloud SQL for PostgreSQL is a fully-managed database service for Postgres.
@@ -68,8 +74,10 @@ List of reference documentation for resources in Toolbox.
   - [Elasticsearch](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/elasticsearch/): Elasticsearch is a distributed, free and open search and analytics engine  for all types of data, including textual, numerical, geospatial, structured,  and unstructured.
   - [Firebird](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/firebird/): Firebird is a powerful, cross-platform, and open-source relational database.
   - [Firestore](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/firestore/): Firestore is a NoSQL document database built for automatic scaling, high performance, and ease of application development. It's a fully managed, serverless database that supports mobile, web, and server development.
+  - [Gemini Data Analytics](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/cloud-gda/): A "cloud-gemini-data-analytics" source provides a client for the Gemini Data Analytics API.
   - [HTTP](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/http/): The HTTP source enables the Toolbox to retrieve data from a remote server using HTTP requests.
   - [Looker](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/looker/): Looker is a business intelligence tool that also provides a semantic layer.
+  - [MariaDB](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/mariadb/): MariaDB is an open-source relational database compatible with MySQL.
   - [MindsDB](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/mindsdb/): MindsDB is an AI federated database that enables SQL queries across hundreds of datasources and ML models.
   - [MongoDB](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/mongodb/): MongoDB is a no-sql data platform that can not only serve general purpose data requirements also perform VectorSearch where both operational data and embeddings used of search can reside in same document.
   - [MySQL](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/mysql/): MySQL is a relational database management system that stores and manages data.
@@ -80,6 +88,7 @@ List of reference documentation for resources in Toolbox.
   - [Redis](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/redis/): Redis is a in-memory data structure store.
   - [Serverless for Apache Spark](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/serverless-spark/): Google Cloud Serverless for Apache Spark lets you run Spark workloads without requiring you to provision and manage your own Spark cluster.
   - [SingleStore](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/singlestore/): SingleStore is the cloud-native database built with speed and scale to power data-intensive applications.
+  - [Snowflake](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/snowflake/): Snowflake is a cloud-based data platform.
   - [Spanner](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/spanner/): Spanner is a fully managed database service from Google Cloud that combines  relational, key-value, graph, and search capabilities.
   - [SQL Server](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/mssql/): SQL Server is a relational database management system (RDBMS).
   - [SQLite](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/sqlite/): SQLite is a C-language library that implements a small, fast, self-contained,  high-reliability, full-featured, SQL database engine.
@@ -87,6 +96,8 @@ List of reference documentation for resources in Toolbox.
   - [Trino](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/trino/): Trino is a distributed SQL query engine for big data analytics.
   - [Valkey](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/valkey/): Valkey is an open-source, in-memory data structure store, forked from Redis.
   - [YugabyteDB](https://SaxenaAnushka102.github.io/genai-toolbox/resources/sources/yugabytedb/): YugabyteDB is a high-performance, distributed SQL database. 
+- [EmbeddingModels](https://SaxenaAnushka102.github.io/genai-toolbox/resources/embeddingmodels/): EmbeddingModels represent services that transform text into vector embeddings for semantic search.
+  - [Gemini Embedding](https://SaxenaAnushka102.github.io/genai-toolbox/resources/embeddingmodels/gemini/): Use Google's Gemini models to generate high-performance text embeddings for vector databases.
 - [Tools](https://SaxenaAnushka102.github.io/genai-toolbox/resources/tools/): Tools define actions an agent can take -- such as reading and writing to a source.
   - [AlloyDB AI NL](https://SaxenaAnushka102.github.io/genai-toolbox/resources/tools/alloydbainl/): AlloyDB AI NL Tool.
   - [AlloyDB for PostgreSQL](https://SaxenaAnushka102.github.io/genai-toolbox/resources/tools/alloydb/): Tools for AlloyDB for PostgreSQL.
@@ -104,6 +115,7 @@ List of reference documentation for resources in Toolbox.
   - [Elasticsearch](https://SaxenaAnushka102.github.io/genai-toolbox/resources/tools/elasticsearch/): Tools that work with Elasticsearch Sources.
   - [Firebird](https://SaxenaAnushka102.github.io/genai-toolbox/resources/tools/firebird/): Tools that work with Firebird Sources.
   - [Firestore](https://SaxenaAnushka102.github.io/genai-toolbox/resources/tools/firestore/): Tools that work with Firestore Sources.
+  - [Gemini Data Analytics](https://SaxenaAnushka102.github.io/genai-toolbox/resources/tools/cloudgda/): Tools for Gemini Data Analytics.
   - [HTTP](https://SaxenaAnushka102.github.io/genai-toolbox/resources/tools/http/): Tools that work with HTTP Sources.
   - [Looker](https://SaxenaAnushka102.github.io/genai-toolbox/resources/tools/looker/): Tools that work with Looker Sources.
   - [MindsDB Tools](https://SaxenaAnushka102.github.io/genai-toolbox/resources/tools/mindsdb/): MindsDB tools that enable SQL queries across hundreds of datasources and ML models.
@@ -116,6 +128,7 @@ List of reference documentation for resources in Toolbox.
   - [Redis](https://SaxenaAnushka102.github.io/genai-toolbox/resources/tools/redis/): Tools that work with Redis Sources.
   - [Serverless for Apache Spark](https://SaxenaAnushka102.github.io/genai-toolbox/resources/tools/serverless-spark/): Tools that work with Google Cloud Serverless for Apache Spark Sources.
   - [SingleStore](https://SaxenaAnushka102.github.io/genai-toolbox/resources/tools/singlestore/): Tools that work with SingleStore Sources
+  - [Snowflake](https://SaxenaAnushka102.github.io/genai-toolbox/resources/tools/snowflake/): Tools that work with Snowflake Sources.
   - [Spanner](https://SaxenaAnushka102.github.io/genai-toolbox/resources/tools/spanner/): Tools that work with Spanner Sources.
   - [SQL Server](https://SaxenaAnushka102.github.io/genai-toolbox/resources/tools/mssql/): Tools that work with SQL Server Sources, such as CloudSQL for SQL Server.
   - [SQLite](https://SaxenaAnushka102.github.io/genai-toolbox/resources/tools/sqlite/): Tools that work with SQLite Sources.
@@ -124,6 +137,9 @@ List of reference documentation for resources in Toolbox.
   - [Utility tools](https://SaxenaAnushka102.github.io/genai-toolbox/resources/tools/utility/): Tools that provide utility.
   - [Valkey](https://SaxenaAnushka102.github.io/genai-toolbox/resources/tools/valkey/): Tools that work with Valkey Sources.
   - [YugabyteDB](https://SaxenaAnushka102.github.io/genai-toolbox/resources/tools/yuagbytedb/): Tools that work with Valkey Sources.
+  - [cloud-logging-admin-list-log-names](https://SaxenaAnushka102.github.io/genai-toolbox/resources/tools/cloudloggingadmin/cloud-logging-admin-list-log-names/): A "cloud-logging-admin-list-log-names" tool lists the log names in the project.
+  - [cloud-logging-admin-list-resource-types](https://SaxenaAnushka102.github.io/genai-toolbox/resources/tools/cloudloggingadmin/cloud-logging-admin-list-resource-types/): A "cloud-logging-admin-list-resource-types" tool lists the monitored resource types.
+  - [cloud-logging-admin-query-logs](https://SaxenaAnushka102.github.io/genai-toolbox/resources/tools/cloudloggingadmin/cloud-logging-admin-query-logs/): A "cloud-logging-admin-query-logs" tool queries log entries.
 - [Prompts](https://SaxenaAnushka102.github.io/genai-toolbox/resources/prompts/): Prompts allow servers to provide structured messages and instructions for interacting with language models.
   - [Custom](https://SaxenaAnushka102.github.io/genai-toolbox/resources/prompts/custom/): Custom prompts defined by the user.
 
@@ -140,6 +156,9 @@ Samples and guides for using Toolbox.
   - [Gemini-CLI and OAuth](https://SaxenaAnushka102.github.io/genai-toolbox/samples/looker/looker_gemini_oauth/): How to connect to Looker from Gemini-CLI with end-user credentials
   - [Quickstart (MCP with Looker and Gemini-CLI)](https://SaxenaAnushka102.github.io/genai-toolbox/samples/looker/looker_gemini/): How to get started running Toolbox with Gemini-CLI and Looker as the source.
   - [Quickstart (MCP with Looker)](https://SaxenaAnushka102.github.io/genai-toolbox/samples/looker/looker_mcp_inspector/): How to get started running Toolbox with MCP Inspector and Looker as the source.
+- [Neo4j](https://SaxenaAnushka102.github.io/genai-toolbox/samples/neo4j/): How to get started with Toolbox using Neo4j.
+  - [Quickstart (MCP with Neo4j)](https://SaxenaAnushka102.github.io/genai-toolbox/samples/neo4j/mcp_quickstart/): How to get started running Toolbox with MCP Inspector and Neo4j as the source.
+- [Snowflake](https://SaxenaAnushka102.github.io/genai-toolbox/samples/snowflake/): How to get started running Toolbox with MCP Inspector and Snowflake as the source.
 
 ### About
 
